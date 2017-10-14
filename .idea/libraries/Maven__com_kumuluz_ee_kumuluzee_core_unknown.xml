@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.kumuluz.ee:kumuluzee-core:unknown">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/kumuluz/ee/kumuluzee-core/unknown/kumuluzee-core-unknown.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/kumuluz/ee/kumuluzee-core/unknown/kumuluzee-core-unknown-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/kumuluz/ee/kumuluzee-core/unknown/kumuluzee-core-unknown-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
