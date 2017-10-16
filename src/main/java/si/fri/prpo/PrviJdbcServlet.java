@@ -1,3 +1,5 @@
+package si.fri.prpo;
+
 import com.kumuluz.ee.configuration.utils.ConfigurationUtil;
 
 import javax.servlet.ServletException;
@@ -16,7 +18,13 @@ public class PrviJdbcServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         // implementacija
+        PrintWriter writer = resp.getWriter();
 
+        writer.append("Hello World\n");
+
+        String serviceName = ConfigurationUtil.getInstance().get("kumuluzee.env.name").orElse("No congif");
+
+        writer.append(serviceName + "\n");
 
     }
 }
