@@ -12,6 +12,8 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <kumuluzee.version>2.4.1</kumuluzee.version>
     </properties>
 
     <dependencyManagement>
@@ -19,7 +21,7 @@
             <dependency>
                 <groupId>com.kumuluz.ee</groupId>
                 <artifactId>kumuluzee-bom</artifactId>
-                <version>2.4.1</version>
+                <version>${kumuluzee.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -42,7 +44,7 @@
             <plugin>
                 <groupId>com.kumuluz.ee</groupId>
                 <artifactId>kumuluzee-maven-plugin</artifactId>
-                <version>2.4.1</version>
+                <version>${kumuluzee.version}</version>
                 <executions>
                     <execution>
                         <id>package</id>
