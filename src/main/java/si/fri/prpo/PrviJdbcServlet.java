@@ -22,7 +22,7 @@ public class PrviJdbcServlet extends HttpServlet {
 
         writer.append("Hello World\n");
 
-        String serviceName = ConfigurationUtil.getInstance().get("kumuluzee.env.name").orElse("No congif");
+        String serviceName = ConfigurationUtil.getInstance().get("kumuluzee.env.name").orElse("Ne dobim config datoteke");
 
         writer.append(serviceName + "\n");
 
