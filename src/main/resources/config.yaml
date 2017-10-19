@@ -5,7 +5,7 @@ kumuluzee:
     name: PrviJdbcServlet
   datasources:
     - jndi-name: jdbc/SimpleJdbcDS
-      connection-url: jdbc:postgresql://localhost:5432/uporabniki
+      connection-url: jdbc:postgresql://192.168.99.100:5432/uporabniki
       username: postgres
       password: postgres
       max-pool-size: 20

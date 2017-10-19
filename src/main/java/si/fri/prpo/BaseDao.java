@@ -6,7 +6,7 @@ import java.util.List;
 public interface BaseDao {
     Connection getConnection();
 
-    Entiteta vrni(int id);
+    Entiteta vrni(String username);
 
     void vstavi(Entiteta ent);
 

@@ -27,7 +27,7 @@ public class PrviJdbcServlet extends HttpServlet {
         writer.append(serviceName + "\n");
 
         BaseDao dao = new UporacnikDaoImpl();
-        Uporabnik uporabnik = (Uporabnik) dao.vrni(1);
+        Uporabnik uporabnik = (Uporabnik) dao.vrni("mmico");
 
         writer.append(uporabnik.getIme());
     }

@@ -32,7 +32,7 @@ public class UporacnikDaoImpl implements BaseDao{
     }
 
     @Override
-    public Entiteta vrni(int id) {
+    public Entiteta vrni(String username) {
         PreparedStatement ps = null;
 
         try {
@@ -41,9 +41,10 @@ public class UporacnikDaoImpl implements BaseDao{
                 con = getConnection();
             }
 
-            String sql = "SELECT * FROM uporabnik WHERE id = ?";
+
+            String sql = "SELECT * FROM uporabnik WHERE uporabniskoime = ?";
             ps = con.prepareStatement(sql);
-            ps.setInt(1, id);
+            ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
