@@ -10,10 +10,10 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class UporacnikDaoImpl implements BaseDao{
+public class UporabnikDaoImpl implements BaseDao{
 
     private Connection con = null;
-    private Logger log = Logger.getLogger(UporacnikDaoImpl.class.getName());
+    private Logger log = Logger.getLogger(UporabnikDaoImpl.class.getName());
 
     @Override
     public Connection getConnection() {
@@ -42,7 +42,7 @@ public class UporacnikDaoImpl implements BaseDao{
             }
 
 
-            String sql = "SELECT * FROM uporabnik WHERE uporabniskoime = ?";
+            String sql = "SELECT * FROM uporabniki WHERE uporabniskoime = ?";
             ps = con.prepareStatement(sql);
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
