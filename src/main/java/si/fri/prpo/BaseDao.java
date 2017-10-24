@@ -10,7 +10,7 @@ public interface BaseDao {
 
     void vstavi(Entiteta ent);
 
-    void odstrani(int id);
+    void odstrani(String username);
 
     void posodobi(Entiteta ent);
 
