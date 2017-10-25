@@ -188,6 +188,7 @@ public class UporabnikDaoImpl implements BaseDao{
                 uporabnik.setUporabniskoIme(uporabniskoIme);
                 uporabniki.add((Entiteta)uporabnik);
             }
+            return uporabniki;
         } catch (SQLException e) {
             log.severe(e.toString());
         } finally {
