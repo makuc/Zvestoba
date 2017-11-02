@@ -6,6 +6,7 @@ import javax.persistence.*;
         {
                 @NamedQuery(name = "Uporabniki.getAll", query = "SELECT u FROM uporabniki u"),
                 @NamedQuery(name = "Uporabniki.getOne", query = "SELECT u FROM uporabniki u WHERE u.uporabnisko_ime = ?1"),
+                @NamedQuery(name = "Uporabniki.updateIme", query = "UPDATE uporabniki u SET u.ime = ?2 WHERE u.uporabnisko_ime = ?1"),
                 @NamedQuery(name = "Uporabniki.delete", query = "DELETE FROM uporabniki u WHERE u.uporabnisko_ime = ?1")
         })
 public class Uporabnik {
@@ -14,6 +15,15 @@ public class Uporabnik {
     private String ime;
     private String priimek;
     private String email;
+
+    public Uporabnik(){}
+    public Uporabnik(String uporabnisko_ime, String ime, String priimek, String email)
+    {
+        this.uporabnisko_ime = uporabnisko_ime;
+        this.ime = ime;
+        this.priimek = priimek;
+        this.email = email;
+    }
     public String getUporabnisko_ime() {
         return uporabnisko_ime;
     }

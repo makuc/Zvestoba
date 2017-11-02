@@ -21,7 +21,9 @@ public class UporabnikZrno {
     public Uporabnik getUporabnik(String username){
         Query q = em.createNamedQuery("Uporabniki.getOne");
         q.setParameter(1, username);
-        return (Uporabnik)q.getSingleResult();
+        Uporabnik usr = (Uporabnik)q.getSingleResult();
+        em.refresh(usr);
+        return usr;
     }
 
     public void deleteUporabnik(String username){
@@ -31,5 +33,29 @@ public class UporabnikZrno {
         q.executeUpdate();
         em.getTransaction().commit();
 
+    }
+    public void updateUporabnikIme(String username, String ime){
+        em.getTransaction().begin();
+        Query q = em.createNamedQuery("Uporabniki.updateIme");
+        q.setParameter(1, username);
+        q.setParameter(2, ime);
+        q.executeUpdate();
+        em.getTransaction().commit();
+    }
+    public void createUporabnik(String username, String ime, String priimek, String email) {
+        Uporabnik usr = new Uporabnik(
+                username,
+                ime,
+                priimek,
+                email
+        );
+        em.getTransaction().begin();
+        em.persist(usr);
+        em.getTransaction().commit();
+    }
+    public void storeUporabnik(Uporabnik usr) {
+        em.getTransaction().begin();
+        em.persist(usr);
+        em.getTransaction().commit();
     }
 }

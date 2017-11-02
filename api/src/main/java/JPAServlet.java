@@ -1,4 +1,5 @@
 import entitete.Uporabnik;
+import entitete.ZbraneTocke;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -16,27 +17,93 @@ public class JPAServlet extends HttpServlet {
     @Inject
     private UporabnikZrno uporabnikiZrno;
 
+    @Inject
+    private ZbraneTockeZrno tockeZrno;
+
+/*
+    @Inject
+    private StoritevZrno storitveZrno;
+*/
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-
-
         PrintWriter writer = resp.getWriter();
 
+        // Izpisi vse uporabnike
         writer.append("SELECT u FROM uporabniki u\n");
         List<Uporabnik> uporabniki = uporabnikiZrno.getUporabniki();
         for(int i=0; i<uporabniki.size(); i++)
-        writer.append(uporabniki.get(i).getIme() + "\n");
+            writer.append(uporabniki.get(i).getIme() + "\n");
 
+        // Ustvari novega uporabnika
+        writer.append("\nKreiranje novega uporabnika:\n");
+        Uporabnik newUser = new Uporabnik("testniupor", "Test","Testira","test.testira@testni.test");
+        uporabnikiZrno.storeUporabnik(newUser);
+
+        // Ponovno izpisi vse uporabnike
+        uporabniki = uporabnikiZrno.getUporabniki();
+        for(int i=0; i<uporabniki.size(); i++)
+            writer.append(uporabniki.get(i).getIme() + "\n");
+
+        // Izpisi ime novega uporabnika
         writer.append("\nSELECT u FROM uporabniki u WHERE u.uporabnisko_ime = ?1\n");
-        writer.append(uporabnikiZrno.getUporabnik("petrakos").getIme()+ "\n");
+        writer.append(uporabnikiZrno.getUporabnik(newUser.getUporabnisko_ime()).getIme()+ "\n");
 
+        // Spremeni ime novega uporabnika
+        uporabnikiZrno.updateUporabnikIme(newUser.getUporabnisko_ime(), "UpTest");
+        writer.append("\nUPDATE uporabniki u SET u.ime = ?2 WHERE u.uporabnisko_ime = ?1\n");
+        writer.append(uporabnikiZrno.getUporabnik(newUser.getUporabnisko_ime()).getIme()+ "\n");
+
+        // Odstrani novega uporabnika iz baze
         writer.append("\nDELETE FROM uporabniki u WHERE u.uporabnisko_ime = ?1\n");
-        uporabnikiZrno.deleteUporabnik("petrakos");
+        uporabnikiZrno.deleteUporabnik(newUser.getUporabnisko_ime());
         uporabniki = uporabnikiZrno.getUporabniki();
         for(int i=0; i<uporabniki.size(); i++)
             writer.append(uporabniki.get(i).getIme() + "\n");
 
 
+
+
+
+
+        /* DODAJ ŠE IZPIS STORITEV !!! */
+
+
+
+
+
+        // Izpisovali bomo podatke za sledečega uporabnika
+        Uporabnik upo = uporabnikiZrno.getUporabnik("petrakos");
+
+        // Izpisovali bomo podatke za sledečo storitev
+/*
+        Storitev sto = storitveZrno.getStoritev(1);
+*/
+
+        // Izpisi tocke vseh uporabnikov za vse storitve
+        writer.append("\nSELECT zt FROM zbrane_tocke zt\n");
+        List<ZbraneTocke> tocke = tockeZrno.getZbraneTocke();
+        for(int i=0; i<tocke.size(); i++)
+            writer.append(tocke.get(i).toString() + "\n");
+
+
+        // Izpisi storitve in tocke uporabnika
+        writer.append("\nSELECT zt FROM zbrane_tocke zt WHERE zt.uporabnik = ?1\n");
+        tocke = tockeZrno.getStoritveUporabnika(upo);
+        for(int i=0; i<tocke.size(); i++)
+            writer.append(tocke.get(i).toString() + "\n");
+
+/*
+        // Izpisi uporabnike in tocke storitve
+        writer.append("\nSELECT zt FROM zbrane_tocke zt WHERE zt.storitev = ?1\n");
+        tocke = tockeZrno.getUporabnikeStoritve(sto);
+        for(int i=0; i<tocke.size(); i++)
+            writer.append(tocke.get(i).toString() + "\n");
+
+        // Izpisi tocke storitve uporabnika
+        writer.append("\nSELECT zt FROM zbrane_tocke zt WHERE zt.storitev = ?1 AND zt.uporabnik = ?2\n");
+        writer.append(tockeZrno.getTockeStoritveUporabnika(upo, sto).toString() + "\n");
+*/
     }
 }
