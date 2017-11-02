@@ -4,7 +4,7 @@ kumuluzee:
   env:
     name: dev
   datasources:
-    - jndi-name: jdbc/SimpleJdbcDS
+    - jndi-name: jdbc/ZvestobaDS
       connection-url: jdbc:postgresql://192.168.99.100:5432/zvestoba
       username: postgres
       password: postgres
