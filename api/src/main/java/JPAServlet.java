@@ -25,10 +25,10 @@ public class JPAServlet extends HttpServlet {
 
         writer.append("Hello World\n");
 
-        /*
+
         for(int i=0; i<uporabniki.size(); i++)
         writer.append(uporabniki.get(i).getIme());
-        */
+        
 
     }
 }
