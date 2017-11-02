@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class ZbraneTocke {
 
     @ManyToOne
-    @JoinColumn(name = "uporabniskoIme")
+    @JoinColumn(name = "uporabniskoime")
     private String UporabniskoIme;
 
     @ManyToOne

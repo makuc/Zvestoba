@@ -9,11 +9,11 @@ import java.util.List;
 @ApplicationScoped
 
 public class UporabnikZrno {
-    @PersistenceContext(unitName = "lokacijski-opomniki-jpa")
+    @PersistenceContext(unitName = "zvestoba-jpa")
     private EntityManager em;
 
     public List<Uporabnik> getUporabniki() {
-        Query q = em.createNamedQuery("Uporabnik.getAll");
+        Query q = em.createNamedQuery("Uporabniki.getAll");
         return (List<Uporabnik>)(q.getResultList());
 
     }

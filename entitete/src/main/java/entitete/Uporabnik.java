@@ -1,22 +1,22 @@
 package entitete;
 import javax.persistence.*;
 
-@Entity(name = "uporabnik")
+@Entity(name = "uporabniki")
 @NamedQueries(value =
         {
-                @NamedQuery(name = "Uporabnik.getAll", query = "SELECT u FROM uporabniki u")
+                @NamedQuery(name = "Uporabniki.getAll", query = "SELECT u FROM uporabniki u")
         })
 public class Uporabnik {
     @Id
-    private String uporabniskoIme;
+    private String uporabnisko_ime;
     private String ime;
     private String priimek;
     private String email;
-    public String getUporabniskoIme() {
-        return uporabniskoIme;
+    public String getUporabnisko_ime() {
+        return uporabnisko_ime;
     }
-    public void setUporabniskoIme(String uporabniskoIme) {
-        this.uporabniskoIme = uporabniskoIme;
+    public void setUporabnisko_ime(String uporabnisko_ime) {
+        this.uporabnisko_ime = uporabnisko_ime;
     }
     public String getIme() {
         return ime;
