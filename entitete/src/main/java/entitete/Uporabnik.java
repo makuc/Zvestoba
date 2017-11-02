@@ -4,7 +4,9 @@ import javax.persistence.*;
 @Entity(name = "uporabniki")
 @NamedQueries(value =
         {
-                @NamedQuery(name = "Uporabniki.getAll", query = "SELECT u FROM uporabniki u")
+                @NamedQuery(name = "Uporabniki.getAll", query = "SELECT u FROM uporabniki u"),
+                @NamedQuery(name = "Uporabniki.getOne", query = "SELECT u FROM uporabniki u WHERE u.uporabnisko_ime = ?1"),
+                @NamedQuery(name = "Uporabniki.delete", query = "DELETE FROM uporabniki u WHERE u.uporabnisko_ime = ?1")
         })
 public class Uporabnik {
     @Id

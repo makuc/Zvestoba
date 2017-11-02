@@ -19,16 +19,30 @@ public class JPAServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        List<Uporabnik> uporabniki = uporabnikiZrno.getUporabniki();
+
 
         PrintWriter writer = resp.getWriter();
 
-        writer.append("Hello World\n");
-
-        /*
+        writer.append("SELECT u FROM uporabniki u\n");
+        List<Uporabnik> uporabniki = uporabnikiZrno.getUporabniki();
         for(int i=0; i<uporabniki.size(); i++)
-        writer.append(uporabniki.get(i).getIme());
-        */
+        writer.append(uporabniki.get(i).getIme() + "\n");
+
+        writer.append("\nSELECT u FROM uporabniki u WHERE u.uporabnisko_ime = ?1\n");
+        writer.append(uporabnikiZrno.getUporabnik("petrakos").getIme()+ "\n");
+
+        writer.append("\nDELETE FROM uporabniki u WHERE u.uporabnisko_ime = ?1\n");
+        uporabnikiZrno.deleteUporabnik("petrakos");
+        uporabniki = uporabnikiZrno.getUporabniki();
+        for(int i=0; i<uporabniki.size(); i++)
+            writer.append(uporabniki.get(i).getIme() + "\n");
+
+
+
+
+
+
+
 
     }
 }
