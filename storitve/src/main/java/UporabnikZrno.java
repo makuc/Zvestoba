@@ -29,6 +29,7 @@ public class UporabnikZrno {
         Query q = em.createNamedQuery("Uporabniki.delete");
         q.setParameter(1, username);
         q.executeUpdate();
+        em.getTransaction().commit();
 
     }
 }

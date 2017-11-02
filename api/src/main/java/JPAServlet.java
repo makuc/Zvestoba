@@ -38,11 +38,5 @@ public class JPAServlet extends HttpServlet {
             writer.append(uporabniki.get(i).getIme() + "\n");
 
 
-
-
-
-
-
-
     }
 }
