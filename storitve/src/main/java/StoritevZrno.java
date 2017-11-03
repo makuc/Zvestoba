@@ -20,7 +20,9 @@ public class StoritevZrno {
     public Storitev getStoritev(int id){
         Query q = em.createNamedQuery("Storitev.getOne");
         q.setParameter(1, id);
-        return (Storitev) q.getSingleResult();
+        Storitev sto = (Storitev) q.getSingleResult();
+        em.refresh(sto);
+        return sto;
     }
 
     public void deleteStoritev(int id){
