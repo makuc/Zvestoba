@@ -114,7 +114,7 @@ public class JPAServlet extends HttpServlet {
         for(int i=0; i<tocke.size(); i++)
             writer.append(tocke.get(i).toString() + "\n");
 
-/*
+
         // Izpisi uporabnike in tocke storitve
         writer.append("\nSELECT zt FROM zbrane_tocke zt WHERE zt.storitev = ?1\n");
         tocke = tockeZrno.getUporabnikeStoritve(sto);
@@ -124,6 +124,6 @@ public class JPAServlet extends HttpServlet {
         // Izpisi tocke storitve uporabnika
         writer.append("\nSELECT zt FROM zbrane_tocke zt WHERE zt.storitev = ?1 AND zt.uporabnik = ?2\n");
         writer.append(tockeZrno.getTockeStoritveUporabnika(upo, sto).toString() + "\n");
-*/
+
     }
 }
