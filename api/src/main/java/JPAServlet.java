@@ -1,3 +1,4 @@
+import entitete.Storitev;
 import entitete.Uporabnik;
 import entitete.ZbraneTocke;
 
@@ -20,10 +21,10 @@ public class JPAServlet extends HttpServlet {
     @Inject
     private ZbraneTockeZrno tockeZrno;
 
-/*
+
     @Inject
     private StoritevZrno storitveZrno;
-*/
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -63,23 +64,42 @@ public class JPAServlet extends HttpServlet {
             writer.append(uporabniki.get(i).getIme() + "\n");
 
 
+        //Izpis vseh storitev
+        writer.append("\nSELECT o FROM storitve o\n");
+        List<Storitev> storitve = storitveZrno.getStoritve();
+        for(int i=0; i<storitve.size(); i++)
+            writer.append(storitve.get(i).getNaziv() + "\n");
 
+        // Izpis ene storitve
+        writer.append("\nSELECT o FROM storitve o WHERE o.storitevId = ?1\n");
+        Storitev sto = storitveZrno.getStoritev(1);
+        writer.append(sto.getNaziv() + "\n");
 
+        //Kreiranje storitve
+        writer.append("\nDodajanje storitve\n");
+        Storitev newSto = new Storitev("Dodajanje", "Dodajanje storitve", 3);
+        storitveZrno.storeStoritev(newSto);
+        storitve = storitveZrno.getStoritve();
+        for(int i=0; i<storitve.size(); i++)
+            writer.append(storitve.get(i).getNaziv() + "\n");
 
+        // Sprememba naziva
+        storitveZrno.updateStoritevNaziv(newSto.getStoritevId(), "Sprememba");
+        writer.append("\nUPDATE storitve s SET s.naziv = ?2 WHERE s.storitevId = ?1\n");
+        writer.append(storitveZrno.getStoritev(newSto.getStoritevId()).getNaziv() + "\n");
 
-        /* DODAJ ŠE IZPIS STORITEV !!! */
-
-
-
-
+        // Brisanje storitve
+        writer.append("\nDELETE FROM storitve u WHERE u.storitevId = ?1\n");
+        storitveZrno.deleteStoritev(newSto.getStoritevId());
+        storitve = storitveZrno.getStoritve();
+        for(int i=0; i<storitve.size(); i++)
+            writer.append(storitve.get(i).getNaziv() + "\n");
 
         // Izpisovali bomo podatke za sledečega uporabnika
         Uporabnik upo = uporabnikiZrno.getUporabnik("petrakos");
 
         // Izpisovali bomo podatke za sledečo storitev
-/*
-        Storitev sto = storitveZrno.getStoritev(1);
-*/
+        sto = storitveZrno.getStoritev(1);
 
         // Izpisi tocke vseh uporabnikov za vse storitve
         writer.append("\nSELECT zt FROM zbrane_tocke zt\n");
