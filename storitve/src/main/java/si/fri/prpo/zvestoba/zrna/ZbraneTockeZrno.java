@@ -35,21 +35,29 @@ public class ZbraneTockeZrno {
     private EntityManager em;
 
     public List<ZbraneTocke> getZbraneTocke() {
+        log.log(Level.FINE, "Vracam vse vnose ZbraneTocke");
+
         Query q = em.createNamedQuery("ZbraneTocke.getAll");
         return (List<ZbraneTocke>) q.getResultList();
 
     }
     public List<ZbraneTocke> getStoritveUporabnika (Uporabnik user){
+        log.log(Level.FINE, "Vracam storitve uporabnika: " + user.getUporabnisko_ime());
+
         Query q = em.createNamedQuery("ZbraneTocke.getStoritveUporabnika");
         q.setParameter(1, user);
         return (List<ZbraneTocke>) q.getResultList();
     }
     public List<ZbraneTocke> getUporabnikeStoritve(Storitev storitev){
+        log.log(Level.FINE, "Vracam vse uporabnike storitve (id): " + storitev.getStoritevId());
+
         Query q = em.createNamedQuery("ZbraneTocke.getUporabnikeStoritve");
         q.setParameter(1, storitev);
         return (List<ZbraneTocke>) q.getResultList();
     }
     public ZbraneTocke getTockeStoritveUporabnika(Uporabnik user, Storitev storitev){
+        log.log(Level.FINE, "Vracam tocke uporabnika: " + user.getUporabnisko_ime() +", storitve (id): " +storitev.getStoritevId());
+
         Query q = em.createNamedQuery("ZbraneTocke.getTockeStoritveUporabnika");
         q.setParameter(1, storitev);
         q.setParameter(2, user);
@@ -57,17 +65,18 @@ public class ZbraneTockeZrno {
     }
     @Transactional
     public void dodajUporabnikuStoritev(Uporabnik uporabnik, Storitev storitev){
+        log.log(Level.FINE, "Uporabniku: "+uporabnik.getUporabnisko_ime()+" dodana storitev (id): "+storitev.getStoritevId());
+
         em.getTransaction().begin();
         ZbraneTocke dodaj = new ZbraneTocke(uporabnik, storitev);
         em.persist(dodaj);
         em.getTransaction().commit();
-        log.log(Level.INFO,
-                "Uporabniku: "+uporabnik.getUporabnisko_ime()+" dodana storitev: "+storitev.getStoritevId()
-        );
     }
     @Transactional
     public void povisajUporabnikuTockeStoritve(Uporabnik uporabnik, Storitev storitev){
         if(uporabnik != null && storitev != null) {
+            log.log(Level.FINE, "Povisujem tocke uporabniku: "+uporabnik.getUporabnisko_ime()+", za storitev (id): "+storitev.getStoritevId());
+            
             em.getTransaction().begin();
             ZbraneTockeId najdi = new ZbraneTockeId(storitev.getStoritevId(), uporabnik.getUporabnisko_ime());
             ZbraneTocke cur = em.find(ZbraneTocke.class, najdi);
@@ -80,8 +89,6 @@ public class ZbraneTockeZrno {
             cur.setSt_tock(tocke);
 
             em.getTransaction().commit();
-
-            log.log(Level.INFO, "Povisane tocke: "+uporabnik.getUporabnisko_ime()+":"+storitev.getStoritevId());
         } else
             log.log(Level.WARNING, "ZbraneTockeZrno.povisajUporabnikuTockeStoritve: Podan uporabnik ali storitev ne sme biti NULL!");
     }
