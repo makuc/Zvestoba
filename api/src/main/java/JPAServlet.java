@@ -1,6 +1,9 @@
-import entitete.Storitev;
-import entitete.Uporabnik;
-import entitete.ZbraneTocke;
+import si.fri.prpo.zvestoba.entitete.Storitev;
+import si.fri.prpo.zvestoba.entitete.Uporabnik;
+import si.fri.prpo.zvestoba.entitete.ZbraneTocke;
+import si.fri.prpo.zvestoba.zrna.StoritevZrno;
+import si.fri.prpo.zvestoba.zrna.UporabnikZrno;
+import si.fri.prpo.zvestoba.zrna.ZbraneTockeZrno;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;

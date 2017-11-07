@@ -1,4 +1,4 @@
-package entitete;
+package si.fri.prpo.zvestoba.entitete;
 
 import java.io.Serializable;
 

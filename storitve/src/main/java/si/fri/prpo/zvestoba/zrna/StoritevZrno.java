@@ -1,4 +1,6 @@
-import entitete.Storitev;
+package si.fri.prpo.zvestoba.zrna;
+
+import si.fri.prpo.zvestoba.entitete.Storitev;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;

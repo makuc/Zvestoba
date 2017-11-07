@@ -1,6 +1,8 @@
-import entitete.Storitev;
-import entitete.Uporabnik;
-import entitete.ZbraneTocke;
+package si.fri.prpo.zvestoba.zrna;
+
+import si.fri.prpo.zvestoba.entitete.Storitev;
+import si.fri.prpo.zvestoba.entitete.Uporabnik;
+import si.fri.prpo.zvestoba.entitete.ZbraneTocke;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;

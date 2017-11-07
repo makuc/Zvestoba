@@ -1,4 +1,6 @@
-import entitete.Uporabnik;
+package si.fri.prpo.zvestoba.zrna;
+
+import si.fri.prpo.zvestoba.entitete.Uporabnik;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
