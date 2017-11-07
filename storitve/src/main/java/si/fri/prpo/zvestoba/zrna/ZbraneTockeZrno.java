@@ -76,7 +76,7 @@ public class ZbraneTockeZrno {
     public void povisajUporabnikuTockeStoritve(Uporabnik uporabnik, Storitev storitev){
         if(uporabnik != null && storitev != null) {
             log.log(Level.FINE, "Povisujem tocke uporabniku: "+uporabnik.getUporabnisko_ime()+", za storitev (id): "+storitev.getStoritevId());
-            
+
             em.getTransaction().begin();
             ZbraneTockeId najdi = new ZbraneTockeId(storitev.getStoritevId(), uporabnik.getUporabnisko_ime());
             ZbraneTocke cur = em.find(ZbraneTocke.class, najdi);

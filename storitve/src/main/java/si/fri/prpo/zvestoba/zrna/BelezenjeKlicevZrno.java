@@ -17,6 +17,6 @@ public class BelezenjeKlicevZrno {
     public void increaseCounter(){
 
         this.counter++;
-        System.out.printf("Števec povišan: %d\n", this.counter);
+        System.out.printf("Št. klicov metod: %d\n", this.counter);
     }
 }
