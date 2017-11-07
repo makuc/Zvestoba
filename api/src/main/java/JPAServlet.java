@@ -22,12 +22,10 @@ public class JPAServlet extends HttpServlet {
     private UporabnikZrno uporabnikiZrno;
 
     @Inject
-    private ZbraneTockeZrno tockeZrno;
-
-
-    @Inject
     private StoritevZrno storitveZrno;
 
+    @Inject
+    private ZbraneTockeZrno tockeZrno;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -128,5 +126,20 @@ public class JPAServlet extends HttpServlet {
         writer.append("\nSELECT zt FROM zbrane_tocke zt WHERE zt.storitev = ?1 AND zt.uporabnik = ?2\n");
         writer.append(tockeZrno.getTockeStoritveUporabnika(upo, sto).toString() + "\n");
 
+        // Dodaj uporabniku storitev
+        Storitev dodStoritev = new Storitev("Nova testna storitev", "Uporablja se samo za testiranje", 3);
+        storitveZrno.storeStoritev(dodStoritev);
+        tockeZrno.dodajUporabnikuStoritev(upo, dodStoritev);
+        writer.append("\nUporabniku: " + upo.getUporabnisko_ime() + ", dodana storitev: " + dodStoritev.getStoritevId() +"\n");
+        writer.append(tockeZrno.getTockeStoritveUporabnika(upo, dodStoritev).toString() + "\n");
+
+        // Povisaj uporabniku tocke storitve
+        tockeZrno.povisajUporabnikuTockeStoritve(upo, dodStoritev);
+        writer.append("\nUporabniku: " + upo.getUporabnisko_ime() + ", povisane tocke storitve: " + dodStoritev.getStoritevId() +"\n");
+        writer.append(tockeZrno.getTockeStoritveUporabnika(upo, dodStoritev).toString() + "\n");
+        // Povisaj uporabniku tocke storitve še enkrat, da se lepše vidi
+        tockeZrno.povisajUporabnikuTockeStoritve(upo, dodStoritev);
+        writer.append("Uporabniku: " + upo.getUporabnisko_ime() + " povisane tocke storitve: " + dodStoritev.getStoritevId() +"\n");
+        writer.append(tockeZrno.getTockeStoritveUporabnika(upo, dodStoritev).toString() + "\n");
     }
 }

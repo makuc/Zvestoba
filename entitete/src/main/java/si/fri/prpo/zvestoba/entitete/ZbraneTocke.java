@@ -30,10 +30,13 @@ public class ZbraneTocke {
 
     private Integer st_tock;
 
-    public ZbraneTocke(){}
+    public ZbraneTocke(){
+        this.st_tock = 0;
+    }
     public ZbraneTocke(Uporabnik uporabnik, Storitev storitev){
         this.uporabnik = uporabnik;
         this.storitev = storitev;
+        this.st_tock = 0;
     }
 
     public Uporabnik getUporabnik() {
