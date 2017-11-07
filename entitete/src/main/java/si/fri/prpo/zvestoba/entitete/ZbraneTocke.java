@@ -30,6 +30,12 @@ public class ZbraneTocke {
 
     private Integer st_tock;
 
+    public ZbraneTocke(){}
+    public ZbraneTocke(Uporabnik uporabnik, Storitev storitev){
+        this.uporabnik = uporabnik;
+        this.storitev = storitev;
+    }
+
     public Uporabnik getUporabnik() {
         return uporabnik;
     }
