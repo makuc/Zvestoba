@@ -53,7 +53,8 @@ public class JPAServlet extends HttpServlet {
         writer.append(uporabnikiZrno.getUporabnik(newUser.getUporabnisko_ime()).getIme()+ "\n");
 
         // Spremeni ime novega uporabnika
-        uporabnikiZrno.updateUporabnikIme(newUser.getUporabnisko_ime(), "UpTest");
+        Uporabnik updateUser = new Uporabnik("testniupor", "NovoIme","Testira","test.testira@testni.test");
+        uporabnikiZrno.updateUporabnik(newUser.getUporabnisko_ime(), updateUser);
         writer.append("\nUPDATE uporabniki u SET u.ime = ?2 WHERE u.uporabnisko_ime = ?1\n");
         writer.append(uporabnikiZrno.getUporabnik(newUser.getUporabnisko_ime()).getIme()+ "\n");
 
@@ -85,7 +86,8 @@ public class JPAServlet extends HttpServlet {
             writer.append(storitve.get(i).getNaziv() + "\n");
 
         // Sprememba naziva
-        storitveZrno.updateStoritevNaziv(newSto.getStoritevId(), "Sprememba");
+        Storitev updateSto = new Storitev("Sprememba", "Dodajanje storitve", 3);
+        storitveZrno.updateStoritevNaziv(newSto.getStoritevId(), updateSto);
         writer.append("\nUPDATE storitve s SET s.naziv = ?2 WHERE s.storitevId = ?1\n");
         writer.append(storitveZrno.getStoritev(newSto.getStoritevId()).getNaziv() + "\n");
 

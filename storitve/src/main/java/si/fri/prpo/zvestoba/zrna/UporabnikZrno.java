@@ -1,34 +1,51 @@
 package si.fri.prpo.zvestoba.zrna;
 
+import si.fri.prpo.zvestoba.anotacije.BeleziKlice;
 import si.fri.prpo.zvestoba.entitete.Uporabnik;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @ApplicationScoped
+@BeleziKlice
 
 public class UporabnikZrno {
     @PersistenceContext(unitName = "zvestoba-jpa")
     private EntityManager em;
 
+    private Logger log = Logger.getLogger(UporabnikZrno.class.getName());
+
+    @PostConstruct
+    public void init() {
+        // Zabeleži v logger
+        log.log(Level.INFO, "Inicializacija zrna UporabnikZrno");
+    }
+
     public List<Uporabnik> getUporabniki() {
+        log.log(Level.FINE, "Vračam vse uporabnike");
         Query q = em.createNamedQuery("Uporabniki.getAll");
         return (List<Uporabnik>)(q.getResultList());
 
     }
 
     public Uporabnik getUporabnik(String username){
+        log.log(Level.FINE, "Vračam uporabnika " + username);
         Query q = em.createNamedQuery("Uporabniki.getOne");
         q.setParameter(1, username);
         Uporabnik usr = (Uporabnik)q.getSingleResult();
-        em.refresh(usr);
         return usr;
     }
 
+    @Transactional
     public void deleteUporabnik(String username){
+        log.log(Level.FINE, "Odstranjujem uporabnika " + username);
         em.getTransaction().begin();
         Query q = em.createNamedQuery("Uporabniki.delete");
         q.setParameter(1, username);
@@ -36,15 +53,22 @@ public class UporabnikZrno {
         em.getTransaction().commit();
 
     }
-    public void updateUporabnikIme(String username, String ime){
+
+    @Transactional
+    public void updateUporabnik(String username, Uporabnik upo){
+        log.log(Level.FINE, "Posodabljam uporabnika " + username);
         em.getTransaction().begin();
-        Query q = em.createNamedQuery("Uporabniki.updateIme");
-        q.setParameter(1, username);
-        q.setParameter(2, ime);
-        q.executeUpdate();
+        Uporabnik uporabnik = em.find(Uporabnik.class,username);
+        uporabnik.setIme(upo.getIme());
+        uporabnik.setPriimek(upo.getPriimek());
+        uporabnik.setEmail(upo.getEmail());
+        em.merge(uporabnik);
         em.getTransaction().commit();
     }
+
+    @Transactional
     public void createUporabnik(String username, String ime, String priimek, String email) {
+        log.log(Level.FINE, "Ustvarjam uporabnika");
         Uporabnik usr = new Uporabnik(
                 username,
                 ime,
@@ -55,7 +79,10 @@ public class UporabnikZrno {
         em.persist(usr);
         em.getTransaction().commit();
     }
+
+    @Transactional
     public void storeUporabnik(Uporabnik usr) {
+        log.log(Level.FINE, "Ustvarjam uporabnika");
         em.getTransaction().begin();
         em.persist(usr);
         em.getTransaction().commit();
