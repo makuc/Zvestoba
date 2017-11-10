@@ -65,7 +65,6 @@ public class JPAServlet extends HttpServlet {
         for(int i=0; i<uporabniki.size(); i++)
             writer.append(uporabniki.get(i).getIme() + "\n");
 
-
         //Izpis vseh storitev
         writer.append("\nSELECT o FROM storitve o\n");
         List<Storitev> storitve = storitveZrno.getStoritve();

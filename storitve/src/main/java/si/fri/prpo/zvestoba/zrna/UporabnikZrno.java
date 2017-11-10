@@ -1,7 +1,10 @@
 package si.fri.prpo.zvestoba.zrna;
 
 import si.fri.prpo.zvestoba.anotacije.BeleziKlice;
+import si.fri.prpo.zvestoba.entitete.Storitev;
 import si.fri.prpo.zvestoba.entitete.Uporabnik;
+import si.fri.prpo.zvestoba.entitete.ZbraneTocke;
+import si.fri.prpo.zvestoba.entitete.ZbraneTockeId;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -12,6 +15,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 
 @ApplicationScoped
 @BeleziKlice
@@ -47,9 +51,18 @@ public class UporabnikZrno {
     public void deleteUporabnik(String username){
         log.log(Level.FINE, "Odstranjujem uporabnika " + username);
         em.getTransaction().begin();
-        Query q = em.createNamedQuery("Uporabniki.delete");
-        q.setParameter(1, username);
-        q.executeUpdate();
+        Uporabnik upo = em.find(Uporabnik.class, username);
+        Query q = em.createNamedQuery("Storitev.getAll");
+        List<Storitev> storitve = (List<Storitev>)(q.getResultList());
+        for(int i=0; i<storitve.size(); i++){
+            ZbraneTockeId najdi = new ZbraneTockeId(storitve.get(i).getStoritevId(), username);
+            ZbraneTocke zt = em.find(ZbraneTocke.class, najdi);
+            if(zt != null) {
+                em.remove(zt);
+            }
+        }
+        em.remove(upo);
+        em.flush();
         em.getTransaction().commit();
 
     }

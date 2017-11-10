@@ -2,6 +2,9 @@ package si.fri.prpo.zvestoba.zrna;
 
 import si.fri.prpo.zvestoba.anotacije.BeleziKlice;
 import si.fri.prpo.zvestoba.entitete.Storitev;
+import si.fri.prpo.zvestoba.entitete.Uporabnik;
+import si.fri.prpo.zvestoba.entitete.ZbraneTocke;
+import si.fri.prpo.zvestoba.entitete.ZbraneTockeId;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -47,11 +50,19 @@ public class StoritevZrno {
     public void deleteStoritev(int id){
         log.log(Level.FINE, "Odstranjujem storitev z id-jem " + id);
         em.getTransaction().begin();
-        Query q = em.createNamedQuery("Storitev.delete");
-        q.setParameter(1, id);
-        q.executeUpdate();
+        Storitev sto = em.find(Storitev.class, id);
+        Query q = em.createNamedQuery("Uporabniki.getAll");
+        List<Uporabnik> uporabniki = (List<Uporabnik>)(q.getResultList());
+        for(int i=0; i<uporabniki.size(); i++){
+            ZbraneTockeId najdi = new ZbraneTockeId(id, uporabniki.get(i).getUporabnisko_ime());
+            ZbraneTocke zt = em.find(ZbraneTocke.class, najdi);
+            if(zt != null) {
+                em.remove(zt);
+            }
+        }
+        em.remove(sto);
+        em.flush();
         em.getTransaction().commit();
-
     }
 
     @Transactional
