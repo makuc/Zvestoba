@@ -68,6 +68,25 @@ public class UporabnikZrno {
     }
 
     @Transactional
+    public void deleteUporabnik(Uporabnik user){
+        log.log(Level.FINE, "Odstranjujem uporabnika " + user.getUporabnisko_ime());
+
+        em.getTransaction().begin();
+        Query q = em.createNamedQuery("Storitev.getAll");
+        List<Storitev> storitve = (List<Storitev>)(q.getResultList());
+        for(int i=0; i<storitve.size(); i++){
+            ZbraneTockeId najdi = new ZbraneTockeId(storitve.get(i).getStoritevId(), user.getUporabnisko_ime());
+            ZbraneTocke zt = em.find(ZbraneTocke.class, najdi);
+            if(zt != null) {
+                em.remove(zt);
+            }
+        }
+        em.remove(user);
+        em.flush();
+        em.getTransaction().commit();
+    }
+
+    @Transactional
     public void updateUporabnik(String username, Uporabnik upo){
         log.log(Level.FINE, "Posodabljam uporabnika " + username);
         em.getTransaction().begin();

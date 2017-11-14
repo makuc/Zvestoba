@@ -1,3 +1,5 @@
+package si.fri.prpo.zvestoba.api.servlet;
+
 import si.fri.prpo.zvestoba.entitete.Storitev;
 import si.fri.prpo.zvestoba.entitete.Uporabnik;
 import si.fri.prpo.zvestoba.entitete.ZbraneTocke;
