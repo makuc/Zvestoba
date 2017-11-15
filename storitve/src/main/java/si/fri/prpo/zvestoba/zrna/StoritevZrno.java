@@ -66,7 +66,7 @@ public class StoritevZrno {
     }
 
     @Transactional
-    public void updateStoritevNaziv(int id, Storitev sto){
+    public void updateStoritev(int id, Storitev sto){
         log.log(Level.FINE, "Posodabljam storitev z id-jem " + id);
         em.getTransaction().begin();
         Storitev storitev = em.find(Storitev.class, id);
