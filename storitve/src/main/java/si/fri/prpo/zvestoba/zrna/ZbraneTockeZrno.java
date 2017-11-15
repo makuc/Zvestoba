@@ -8,6 +8,7 @@ import si.fri.prpo.zvestoba.entitete.ZbraneTockeId;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -22,6 +23,9 @@ import java.util.logging.SimpleFormatter;
 @BeleziKlice
 public class ZbraneTockeZrno {
 
+    @Inject
+    UUIDGeneratorZrno uuidZrno;
+
     private Logger log = Logger.getLogger(UporabnikZrno.class.getName());
 
     @PostConstruct
@@ -35,11 +39,14 @@ public class ZbraneTockeZrno {
     private EntityManager em;
 
     public List<ZbraneTocke> getZbraneTocke() {
+        log.info("Začetek obdelave zahtevka: " + uuidZrno.getId().toString());
         log.log(Level.FINE, "Vracam vse vnose ZbraneTocke");
 
         Query q = em.createNamedQuery("ZbraneTocke.getAll");
-        return (List<ZbraneTocke>) q.getResultList();
 
+        log.info("Konec obdelave zahtevka: " + uuidZrno.getId().toString());
+
+        return (List<ZbraneTocke>) q.getResultList();
     }
     public List<ZbraneTocke> getStoritveUporabnika (Uporabnik user){
         log.log(Level.FINE, "Vracam storitve uporabnika: " + user.getUporabnisko_ime());
