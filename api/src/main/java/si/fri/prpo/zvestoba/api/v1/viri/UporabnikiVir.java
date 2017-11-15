@@ -46,7 +46,7 @@ public class UporabnikiVir {
         Uporabnik uporabnik = uporabnikiZrno.getUporabnik(username);
 
         if(uporabnik == null)
-            return Response.status(Response.Status.NOT_FOUND).entity(uporabnik).build();
+            return Response.status(Response.Status.NOT_FOUND).entity(username).build();
         return Response.status(Response.Status.OK).entity(uporabnik).build();
     }
     @Path("{username}")
@@ -55,7 +55,7 @@ public class UporabnikiVir {
 
         Uporabnik uporabnik = uporabnikiZrno.getUporabnik(username);
         if(uporabnik == null)
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.NOT_FOUND).entity(username).build();
 
         uporabnikiZrno.deleteUporabnik(uporabnik);
         return Response.status(Response.Status.OK).build();
@@ -66,7 +66,7 @@ public class UporabnikiVir {
     public Response dodajUporabnika(RequestUporabnik requestUporabnik){
         if(requestUporabnik.getUporabnisko_ime().length() == 0 || requestUporabnik.getIme().length() == 0 ||
                 requestUporabnik.getPriimek().length() == 0 || requestUporabnik.getEmail().length() == 0)
-            return Response.status(Response.Status.PARTIAL_CONTENT).build();
+            return Response.status(Response.Status.PARTIAL_CONTENT).entity(requestUporabnik).build();
 
         uporabnikiZrno.createUporabnik(
                 requestUporabnik.getUporabnisko_ime(),

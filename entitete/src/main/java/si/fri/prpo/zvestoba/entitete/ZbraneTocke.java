@@ -1,5 +1,6 @@
 package si.fri.prpo.zvestoba.entitete;
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlIDREF;
 
 
 @Entity(name = "zbrane_tocke")
@@ -16,16 +17,15 @@ import javax.persistence.*;
         })
 public class ZbraneTocke {
 
+    @XmlIDREF
     @ManyToOne
     @Id
     @JoinColumn(name = "uporabnisko_ime", referencedColumnName = "uporabnisko_ime")
-    //private String uporabnisko_ime;
     private Uporabnik uporabnik;
 
     @ManyToOne
     @Id
     @JoinColumn(name = "storitevid", referencedColumnName = "storitevid")
-    //private Integer storitevid;
     private Storitev storitev;
 
     private Integer st_tock;

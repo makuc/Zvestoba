@@ -81,7 +81,7 @@ public class ZbraneTockeZrno {
             ZbraneTockeId najdi = new ZbraneTockeId(storitev.getStoritevId(), uporabnik.getUporabnisko_ime());
             ZbraneTocke cur = em.find(ZbraneTocke.class, najdi);
             if(cur == null)
-            {// Ta uporabnik nima Ne obstaja, ustvari ga
+            {// Ta uporabnik še ne uporablja izbrane storitve, dodaj mu jo
                 dodajUporabnikuStoritev(uporabnik, storitev);
             }
             int tocke = cur.getSt_tock();

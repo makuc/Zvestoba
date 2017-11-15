@@ -1,5 +1,7 @@
 package si.fri.prpo.zvestoba.entitete;
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlID;
 
 @Entity(name = "uporabniki")
 @NamedQueries(value =
@@ -11,6 +13,8 @@ import javax.persistence.*;
         })
 public class Uporabnik {
     @Id
+    @XmlElement
+    @XmlID
     private String uporabnisko_ime;
     private String ime;
     private String priimek;
