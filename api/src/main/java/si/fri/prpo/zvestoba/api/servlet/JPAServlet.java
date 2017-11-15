@@ -88,7 +88,7 @@ public class JPAServlet extends HttpServlet {
 
         // Sprememba naziva
         Storitev updateSto = new Storitev("Sprememba", "Dodajanje storitve", 3);
-        storitveZrno.updateStoritevNaziv(newSto.getStoritevId(), updateSto);
+        storitveZrno.updateStoritev(newSto.getStoritevId(), updateSto);
         writer.append("\nUPDATE storitve s SET s.naziv = ?2 WHERE s.storitevId = ?1\n");
         writer.append(storitveZrno.getStoritev(newSto.getStoritevId()).getNaziv() + "\n");
 

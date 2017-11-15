@@ -79,4 +79,21 @@ public class UporabnikiVir {
             return Response.status(Response.Status.SERVICE_UNAVAILABLE).build();
         return Response.status(Response.Status.CREATED).entity(created).build();
     }
+
+    @Path("{username}")
+    @PUT
+    public Response posodobiUporabnika(@PathParam("username") String username, RequestUporabnik requestUporabnik){
+        if(requestUporabnik.getUporabnisko_ime().length() == 0 || requestUporabnik.getIme().length() == 0 ||
+                requestUporabnik.getPriimek().length() == 0 || requestUporabnik.getEmail().length() == 0)
+            return Response.status(Response.Status.PARTIAL_CONTENT).entity(requestUporabnik).build();
+        Uporabnik uporabnik = new Uporabnik(requestUporabnik.getUporabnisko_ime()
+                , requestUporabnik.getIme(),
+                requestUporabnik.getPriimek(),
+                requestUporabnik.getEmail());
+        uporabnikiZrno.updateUporabnik(username, uporabnik);
+        uporabnik = uporabnikiZrno.getUporabnik(username);
+        if(uporabnik == null)
+            return Response.status(Response.Status.SERVICE_UNAVAILABLE).build();
+        return Response.status(Response.Status.OK).entity(uporabnik).build();
+    }
 }
