@@ -49,48 +49,54 @@ public class StoritveVir {
         return Response.status(Response.Status.OK).entity(storitev).build();
     }
 
-    @Path("{id}")
     @DELETE
-    public Response odstraniStoriteva(@PathParam("id") int id) {
+    public Response odstraniStoriteva(RequestStoritev requestStoritev) {
 
-        Storitev storitev = storitveZrno.getStoritev(id);
+        if(requestStoritev.getStoritevId() == null)
+            return Response.status(Response.Status.BAD_REQUEST).entity(requestStoritev).build();
+
+        Storitev storitev = storitveZrno.getStoritev(requestStoritev.getStoritevId());
+
         if(storitev == null)
-            return Response.status(Response.Status.NOT_FOUND).entity(id).build();
+            return Response.status(Response.Status.NOT_FOUND).entity(requestStoritev).build();
 
-        storitveZrno.deleteStoritev(id);
+        storitveZrno.deleteStoritev(requestStoritev.getStoritevId());
+
         return Response.status(Response.Status.OK).build();
-
     }
 
     @POST
     public Response dodajStoriteva(RequestStoritev requestStoritev){
-        if(requestStoritev.getNaziv().length() == 0 ||
-                requestStoritev.getOpis().length() == 0 || requestStoritev.getStPridobljenihTock() == null)
+        if(requestStoritev.getNaziv() == null || requestStoritev.getOpis() == null || requestStoritev.getStPridobljenihTock() == null)
             return Response.status(Response.Status.PARTIAL_CONTENT).entity(requestStoritev).build();
 
         Storitev storitev = new Storitev(requestStoritev.getNaziv(),
                 requestStoritev.getOpis(),
-                requestStoritev.getStPridobljenihTock());
-        storitveZrno.storeStoritev(storitev);
-        Storitev created = storitveZrno.getStoritev(storitev.getStoritevId());
-        if(created == null)
-            return Response.status(Response.Status.SERVICE_UNAVAILABLE).build();
-        return Response.status(Response.Status.CREATED).entity(created).build();
-    }
+                requestStoritev.getStPridobljenihTock()
+        );
+        storitev = storitveZrno.storeStoritev(storitev);
 
-    @Path("{id}")
-    @PUT
-    public Response posodobiStoriteva(@PathParam("id") int id, RequestStoritev requestStoritev){
-        if(requestStoritev.getStoritevId() == null || requestStoritev.getNaziv().length() == 0 ||
-                requestStoritev.getOpis().length() == 0 || requestStoritev.getStPridobljenihTock() == null)
-            return Response.status(Response.Status.PARTIAL_CONTENT).entity(requestStoritev).build();
-        Storitev storitev = new Storitev(requestStoritev.getNaziv(),
-                requestStoritev.getOpis(),
-                requestStoritev.getStPridobljenihTock());
-        storitveZrno.updateStoritev(id, storitev);
-        storitev = storitveZrno.getStoritev(id);
         if(storitev == null)
             return Response.status(Response.Status.SERVICE_UNAVAILABLE).build();
+        return Response.status(Response.Status.CREATED).entity(storitev).build();
+    }
+
+    @PUT
+    public Response posodobiStoriteva(RequestStoritev requestStoritev){
+
+        if(requestStoritev.getStoritevId() == null)
+            return Response.status(Response.Status.PARTIAL_CONTENT).entity(requestStoritev).build();
+
+        Storitev storitev = new Storitev(
+                requestStoritev.getNaziv(),
+                requestStoritev.getOpis(),
+                requestStoritev.getStPridobljenihTock()
+        );
+        storitev = storitveZrno.updateStoritev(requestStoritev.getStoritevId(), storitev);
+
+        if(storitev == null)
+            return Response.status(Response.Status.SERVICE_UNAVAILABLE).build();
+
         return Response.status(Response.Status.OK).entity(storitev).build();
     }
 }

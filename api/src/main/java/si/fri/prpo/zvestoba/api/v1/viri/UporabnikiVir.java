@@ -40,22 +40,27 @@ public class UporabnikiVir {
         return Response.status(Response.Status.OK).entity(uporabniki).build();
     }
 
-    @Path("{username}")
+    @Path("{uporabnisko_ime}")
     @GET
-    public Response vrniUporabnika(@PathParam("username") String username){
-        Uporabnik uporabnik = uporabnikiZrno.getUporabnik(username);
+    public Response vrniUporabnika(@PathParam("uporabnisko_ime") String uporabnisko_ime){
+        Uporabnik uporabnik = uporabnikiZrno.getUporabnik(uporabnisko_ime);
 
         if(uporabnik == null)
-            return Response.status(Response.Status.NOT_FOUND).entity(username).build();
+            return Response.status(Response.Status.NOT_FOUND).entity(uporabnisko_ime).build();
+
         return Response.status(Response.Status.OK).entity(uporabnik).build();
     }
-    @Path("{username}")
-    @DELETE
-    public Response odstraniUporabnika(@PathParam("username") String username) {
 
-        Uporabnik uporabnik = uporabnikiZrno.getUporabnik(username);
+    @DELETE
+    public Response odstraniUporabnika(RequestUporabnik requestUporabnik) {
+
+        if(requestUporabnik.getUporabnisko_ime() == null){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        Uporabnik uporabnik = uporabnikiZrno.getUporabnik(requestUporabnik.getUporabnisko_ime());
         if(uporabnik == null)
-            return Response.status(Response.Status.NOT_FOUND).entity(username).build();
+            return Response.status(Response.Status.NOT_FOUND).entity(requestUporabnik.getUporabnisko_ime()).build();
 
         uporabnikiZrno.deleteUporabnik(uporabnik);
         return Response.status(Response.Status.OK).build();
@@ -80,18 +85,20 @@ public class UporabnikiVir {
         return Response.status(Response.Status.CREATED).entity(created).build();
     }
 
-    @Path("{username}")
     @PUT
-    public Response posodobiUporabnika(@PathParam("username") String username, RequestUporabnik requestUporabnik){
-        if(requestUporabnik.getUporabnisko_ime().length() == 0 || requestUporabnik.getIme().length() == 0 ||
-                requestUporabnik.getPriimek().length() == 0 || requestUporabnik.getEmail().length() == 0)
+    public Response posodobiUporabnika(RequestUporabnik requestUporabnik){
+
+        if(requestUporabnik.getUporabnisko_ime() == null)
             return Response.status(Response.Status.PARTIAL_CONTENT).entity(requestUporabnik).build();
-        Uporabnik uporabnik = new Uporabnik(requestUporabnik.getUporabnisko_ime()
-                , requestUporabnik.getIme(),
+
+        Uporabnik uporabnik = new Uporabnik(
+                requestUporabnik.getUporabnisko_ime(),
+                requestUporabnik.getIme(),
                 requestUporabnik.getPriimek(),
-                requestUporabnik.getEmail());
-        uporabnikiZrno.updateUporabnik(username, uporabnik);
-        uporabnik = uporabnikiZrno.getUporabnik(username);
+                requestUporabnik.getEmail()
+        );
+        uporabnikiZrno.updateUporabnik(uporabnik);
+        uporabnik = uporabnikiZrno.getUporabnik(requestUporabnik.getUporabnisko_ime());
         if(uporabnik == null)
             return Response.status(Response.Status.SERVICE_UNAVAILABLE).build();
         return Response.status(Response.Status.OK).entity(uporabnik).build();

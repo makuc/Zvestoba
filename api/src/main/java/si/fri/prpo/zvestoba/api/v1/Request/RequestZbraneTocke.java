@@ -5,15 +5,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class RequestZbraneTocke {
-    @XmlElement String username;
+    @XmlElement String uporabnisko_ime;
     @XmlElement Integer storitevId;
 
-    public String getUsername() {
-        return username;
+    public String getUporabnisko_ime() {
+        return uporabnisko_ime;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUporabnisko_ime(String uporabnisko_ime) {
+        this.uporabnisko_ime = uporabnisko_ime;
     }
 
     public Integer getStoritevId() {

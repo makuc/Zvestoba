@@ -86,28 +86,19 @@ public class ZbraneTockeVir {
 
     @POST
     public Response dodajZbraneTocke(RequestZbraneTocke requestZbraneTocke){
-        Uporabnik uporabnik = uporabnikiZrno.getUporabnik(requestZbraneTocke.getUsername());
-        if(uporabnik == null)
-            return Response.status(Response.Status.NOT_FOUND).entity(requestZbraneTocke.getUsername()).build();
 
-        Storitev storitev = storitveZrno.getStoritev(requestZbraneTocke.getStoritevId());
-        if(storitev == null)
-            return Response.status(Response.Status.NOT_FOUND).entity(requestZbraneTocke.getStoritevId()).build();
-
-        tockeZrno.dodajUporabnikuStoritev(uporabnik, storitev);
-
-        ZbraneTocke zbraneTocke = tockeZrno.getTockeStoritveUporabnika(uporabnik, storitev);
+        ZbraneTocke zbraneTocke = tockeZrno.dodajUporabnikuStoritev(requestZbraneTocke.getUporabnisko_ime(), requestZbraneTocke.getStoritevId());
         if(zbraneTocke == null)
-            return Response.status(Response.Status.SERVICE_UNAVAILABLE).build();
+            return Response.status(Response.Status.CONFLICT).entity(requestZbraneTocke).build();
 
         return Response.status(Response.Status.CREATED).entity(zbraneTocke).build();
     }
 
     @PUT
     public Response povisajUporabnikuTockeStoritve(RequestZbraneTocke requestZbraneTocke){
-        Uporabnik uporabnik = uporabnikiZrno.getUporabnik(requestZbraneTocke.getUsername());
+        Uporabnik uporabnik = uporabnikiZrno.getUporabnik(requestZbraneTocke.getUporabnisko_ime());
         if(uporabnik == null)
-            return Response.status(Response.Status.NOT_FOUND).entity(requestZbraneTocke.getUsername()).build();
+            return Response.status(Response.Status.NOT_FOUND).entity(requestZbraneTocke.getUporabnisko_ime()).build();
 
         Storitev storitev = storitveZrno.getStoritev(requestZbraneTocke.getStoritevId());
         if(storitev == null)

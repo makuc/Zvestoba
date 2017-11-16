@@ -8,6 +8,7 @@ import si.fri.prpo.zvestoba.entitete.ZbraneTockeId;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -24,6 +25,9 @@ public class UporabnikZrno {
     @PersistenceContext(unitName = "zvestoba-jpa")
     private EntityManager em;
 
+    @Inject
+    ZbraneTockeZrno tockeZrno;
+
     private Logger log = Logger.getLogger(UporabnikZrno.class.getName());
 
     @PostConstruct
@@ -39,84 +43,96 @@ public class UporabnikZrno {
 
     }
 
-    public Uporabnik getUporabnik(String username){
-        log.log(Level.FINE, "Vračam uporabnika " + username);
-        Query q = em.createNamedQuery("Uporabniki.getOne");
-        q.setParameter(1, username);
-        Uporabnik usr = (Uporabnik)q.getSingleResult();
-        return usr;
-    }
+    public Uporabnik getUporabnik(String uporabnisko_ime){
 
-    @Transactional
-    public void deleteUporabnik(String username){
-        log.log(Level.FINE, "Odstranjujem uporabnika " + username);
-        em.getTransaction().begin();
-        Uporabnik upo = em.find(Uporabnik.class, username);
-        Query q = em.createNamedQuery("Storitev.getAll");
-        List<Storitev> storitve = (List<Storitev>)(q.getResultList());
-        for(int i=0; i<storitve.size(); i++){
-            ZbraneTockeId najdi = new ZbraneTockeId(storitve.get(i).getStoritevId(), username);
-            ZbraneTocke zt = em.find(ZbraneTocke.class, najdi);
-            if(zt != null) {
-                em.remove(zt);
-            }
+        if(uporabnisko_ime == null) {
+            log.warning("Za iskanje uporabnika potrebno: uporabnisko_ime");
+            return null;
         }
-        em.remove(upo);
-        em.flush();
-        em.getTransaction().commit();
 
+        log.fine("Vračam uporabnika " + uporabnisko_ime);
+
+        return em.find(Uporabnik.class, uporabnisko_ime);
+    }
+
+    public void deleteUporabnik(String uporabnisko_ime){
+        // Just a wrapper :P
+        // No need to log it, it happens in the next step anyway
+        Uporabnik uporabnik = getUporabnik(uporabnisko_ime);
+
+        deleteUporabnik(uporabnik);
     }
 
     @Transactional
-    public void deleteUporabnik(Uporabnik user){
-        log.log(Level.FINE, "Odstranjujem uporabnika " + user.getUporabnisko_ime());
+    public void deleteUporabnik(Uporabnik uporabnik){
 
-        em.getTransaction().begin();
-        Query q = em.createNamedQuery("Storitev.getAll");
-        List<Storitev> storitve = (List<Storitev>)(q.getResultList());
-        for(int i=0; i<storitve.size(); i++){
-            ZbraneTockeId najdi = new ZbraneTockeId(storitve.get(i).getStoritevId(), user.getUporabnisko_ime());
-            ZbraneTocke zt = em.find(ZbraneTocke.class, najdi);
-            if(zt != null) {
-                em.remove(zt);
-            }
+        if(uporabnik.getUporabnisko_ime() == null){
+            log.warning("Ne morem odstranit uporabnika brez: uporabnisko_ime");
         }
-        em.remove(user);
-        em.flush();
-        em.getTransaction().commit();
-    }
 
-    @Transactional
-    public void updateUporabnik(String username, Uporabnik upo){
-        log.log(Level.FINE, "Posodabljam uporabnika " + username);
+        log.fine("Odstranjujem uporabnika " + uporabnik.getUporabnisko_ime());
+
+        tockeZrno.deleteStoritveUporabnika(uporabnik);
+
         em.getTransaction().begin();
-        Uporabnik uporabnik = em.find(Uporabnik.class,username);
-        uporabnik.setIme(upo.getIme());
-        uporabnik.setPriimek(upo.getPriimek());
-        uporabnik.setEmail(upo.getEmail());
-        em.merge(uporabnik);
+        em.remove(uporabnik);
         em.getTransaction().commit();
     }
 
     @Transactional
-    public void createUporabnik(String username, String ime, String priimek, String email) {
-        log.log(Level.FINE, "Ustvarjam uporabnika");
+    public Uporabnik updateUporabnik(Uporabnik uporabnik){
+
+        if(uporabnik.getUporabnisko_ime() == null) {
+            log.warning("Neveljaven uporabnik: manjka uporabnisko_ime");
+            return null;
+        }
+
+        log.fine("Posodabljam uporabnika s uporabnisko_ime: " + uporabnik.getUporabnisko_ime());
+
+        Uporabnik posodobi = getUporabnik(uporabnik.getUporabnisko_ime());
+
+        if(uporabnik.getIme() != null)
+            posodobi.setIme(uporabnik.getIme());
+        if(uporabnik.getPriimek() != null)
+            posodobi.setPriimek(uporabnik.getPriimek());
+        if(uporabnik.getEmail() != null)
+            posodobi.setEmail(uporabnik.getEmail());
+
+        em.getTransaction().begin();
+        posodobi = em.merge(posodobi);
+        em.getTransaction().commit();
+
+        return posodobi;
+    }
+
+    public Uporabnik createUporabnik(String username, String ime, String priimek, String email) {
+
+        log.fine("Ustvarjam uporabnika s podanimi podatki");
+
         Uporabnik usr = new Uporabnik(
                 username,
                 ime,
                 priimek,
                 email
         );
-        em.getTransaction().begin();
-        em.persist(usr);
-        em.getTransaction().commit();
+        usr = storeUporabnik(usr);
+        return usr;
     }
 
     @Transactional
-    public void storeUporabnik(Uporabnik usr) {
-        log.log(Level.FINE, "Ustvarjam uporabnika");
+    public Uporabnik storeUporabnik(Uporabnik uporabnik) {
+
+        if(uporabnik.getUporabnisko_ime() == null) {
+            log.warning("Ne morem ustvarit uporabnika brez: uporabnisko_ime");
+            return null;
+        }
+
+        log.fine("Shranjujem uporabnika");
+
         em.getTransaction().begin();
-        em.persist(usr);
+        em.persist(uporabnik);
         em.getTransaction().commit();
+
+        return getUporabnik(uporabnik.getUporabnisko_ime());
     }
 }

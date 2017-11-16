@@ -8,6 +8,7 @@ import si.fri.prpo.zvestoba.entitete.ZbraneTockeId;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -23,6 +24,9 @@ public class StoritevZrno {
     @PersistenceContext(unitName = "zvestoba-jpa")
     private EntityManager em;
 
+    @Inject
+    ZbraneTockeZrno tockeZrno;
+
     private Logger log = Logger.getLogger(StoritevZrno.class.getName());
 
     @PostConstruct
@@ -32,56 +36,81 @@ public class StoritevZrno {
     }
 
     public List<Storitev> getStoritve(){
-        log.log(Level.FINE, "Vračam vse storitve");
+        log.fine("Vračam vse storitve");
+
         Query q = em.createNamedQuery("Storitev.getAll");
+
         return (List<Storitev>)(q.getResultList());
     }
 
-    public Storitev getStoritev(int id){
-        log.log(Level.FINE, "Vračam storitev z id-jem " + id);
-        Query q = em.createNamedQuery("Storitev.getOne");
-        q.setParameter(1, id);
-        Storitev sto = (Storitev) q.getSingleResult();
-        em.refresh(sto);
-        return sto;
-    }
+    public Storitev getStoritev(Integer storitevId){
 
-    @Transactional
-    public void deleteStoritev(int id){
-        log.log(Level.FINE, "Odstranjujem storitev z id-jem " + id);
-        em.getTransaction().begin();
-        Storitev sto = em.find(Storitev.class, id);
-        Query q = em.createNamedQuery("Uporabniki.getAll");
-        List<Uporabnik> uporabniki = (List<Uporabnik>)(q.getResultList());
-        for(int i=0; i<uporabniki.size(); i++){
-            ZbraneTockeId najdi = new ZbraneTockeId(id, uporabniki.get(i).getUporabnisko_ime());
-            ZbraneTocke zt = em.find(ZbraneTocke.class, najdi);
-            if(zt != null) {
-                em.remove(zt);
-            }
+        if(storitevId == null){
+            log.warning("Za iskanje storitve potreben: storitevId");
+            return null;
         }
-        em.remove(sto);
-        em.flush();
-        em.getTransaction().commit();
+
+        log.log(Level.FINE, "Vračam storitev s storitevId: " + storitevId);
+
+        return em.find(Storitev.class, storitevId);
     }
 
     @Transactional
-    public void updateStoritev(int id, Storitev sto){
-        log.log(Level.FINE, "Posodabljam storitev z id-jem " + id);
+    public void deleteStoritev(Integer storitevId){
+
+        if(storitevId == null) {
+            log.warning("Ne morem odstraniti storitve brez: storitevId");
+        }
+
+        log.fine("Odstranjujem storitev s storitevId: " + storitevId);
+
+        Storitev storitev = getStoritev(storitevId);
+
+        tockeZrno.deleteUporabnikeStoritve(storitev);
+
         em.getTransaction().begin();
-        Storitev storitev = em.find(Storitev.class, id);
-        storitev.setNaziv(sto.getNaziv());
-        storitev.setOpis(sto.getOpis());
-        storitev.setStPridobljenihTock(sto.getStPridobljenihTock());
-        em.merge(storitev);
+        em.remove(storitev);
         em.getTransaction().commit();
     }
 
+    public Storitev createStoritev(Integer storitevId, String naziv, String opis, Integer stPridobljenihTock){
+        log.fine("Ustvarjam novo storitev");
+
+        Storitev storitev = new Storitev(naziv, opis, stPridobljenihTock);
+
+        return storeStoritev(storitev);
+    }
+
     @Transactional
-    public void storeStoritev(Storitev sto) {
-        log.log(Level.FINE, "Dodajam storitev");
+    public Storitev updateStoritev(Integer storitevId, Storitev storitev){
+
+        log.log(Level.FINE, "Posodabljam storitev z id-jem " + storitevId);
+
+        Storitev posodobi = getStoritev(storitevId);
+
+        if(storitev.getNaziv() != null)
+            posodobi.setNaziv(storitev.getNaziv());
+        if(storitev.getOpis() != null)
+            posodobi.setOpis(storitev.getOpis());
+        if(storitev.getStPridobljenihTock() != null)
+            posodobi.setStPridobljenihTock(storitev.getStPridobljenihTock());
+
         em.getTransaction().begin();
-        em.persist(sto);
+        posodobi = em.merge(posodobi);
         em.getTransaction().commit();
+
+        return posodobi;
+    }
+
+    @Transactional
+    public Storitev storeStoritev(Storitev storitev) {
+
+        log.fine("Shranjujem storitev");
+
+        em.getTransaction().begin();
+        em.persist(storitev);
+        em.getTransaction().commit();
+
+        return getStoritev(storitev.getStoritevId());
     }
 }

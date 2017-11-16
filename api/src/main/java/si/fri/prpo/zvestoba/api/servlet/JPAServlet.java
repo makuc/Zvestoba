@@ -55,8 +55,8 @@ public class JPAServlet extends HttpServlet {
         writer.append(uporabnikiZrno.getUporabnik(newUser.getUporabnisko_ime()).getIme()+ "\n");
 
         // Spremeni ime novega uporabnika
-        Uporabnik updateUser = new Uporabnik("testniupor", "NovoIme","Testira","test.testira@testni.test");
-        uporabnikiZrno.updateUporabnik(newUser.getUporabnisko_ime(), updateUser);
+        Uporabnik updateUser = new Uporabnik(newUser.getUporabnisko_ime(), "NovoIme","Testira","test.testira@testni.test");
+        uporabnikiZrno.updateUporabnik(updateUser);
         writer.append("\nUPDATE uporabniki u SET u.ime = ?2 WHERE u.uporabnisko_ime = ?1\n");
         writer.append(uporabnikiZrno.getUporabnik(newUser.getUporabnisko_ime()).getIme()+ "\n");
 

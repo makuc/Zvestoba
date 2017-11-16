@@ -47,11 +47,11 @@ public class ZbraneTocke {
         this.uporabnik = uporabnik;
     }
 
-    public Storitev getStoritevid() {
+    public Storitev getStoritev() {
         return storitev;
     }
 
-    public void setStoritevid(Storitev storitev) {
+    public void setStoritev(Storitev storitev) {
         this.storitev = storitev;
     }
 
