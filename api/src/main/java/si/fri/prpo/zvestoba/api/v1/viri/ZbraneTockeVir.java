@@ -1,6 +1,7 @@
 package si.fri.prpo.zvestoba.api.v1.viri;
 
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
 import si.fri.prpo.zvestoba.api.v1.Request.RequestZbraneTocke;
 import si.fri.prpo.zvestoba.entitete.Storitev;
 import si.fri.prpo.zvestoba.entitete.Uporabnik;
@@ -12,8 +13,10 @@ import si.fri.prpo.zvestoba.zrna.ZbraneTockeZrno;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.util.List;
 
 @ApplicationScoped
@@ -21,6 +24,9 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class ZbraneTockeVir {
+
+    @Context
+    protected UriInfo uriInfo;
 
     @Inject
     private UporabnikZrno uporabnikiZrno;
@@ -34,8 +40,10 @@ public class ZbraneTockeVir {
     @GET
     public Response vrniZbraneTocke(){
 
-        List<ZbraneTocke> zbraneTocke = tockeZrno.getZbraneTocke();
-        // pridobi uporabnike
+        QueryParameters query = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
+        List<ZbraneTocke> zbraneTocke = tockeZrno.getZbraneTocke(query);
+
+        //List<ZbraneTocke> zbraneTocke = tockeZrno.getZbraneTocke();
 
         return Response.status(Response.Status.OK).entity(zbraneTocke).build();
     }

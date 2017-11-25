@@ -1,5 +1,6 @@
 package si.fri.prpo.zvestoba.api.v1.viri;
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
 import si.fri.prpo.zvestoba.api.v1.Request.RequestStoritev;
 import si.fri.prpo.zvestoba.entitete.Storitev;
 import si.fri.prpo.zvestoba.entitete.Storitev;
@@ -11,8 +12,10 @@ import si.fri.prpo.zvestoba.zrna.ZbraneTockeZrno;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.util.List;
 
 @ApplicationScoped
@@ -21,6 +24,10 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 
 public class StoritveVir {
+
+    @Context
+    protected UriInfo uriInfo;
+
     @Inject
     private UporabnikZrno uporabnikiZrno;
 
@@ -33,8 +40,8 @@ public class StoritveVir {
     @GET
     public Response vrniStoritve(){
 
-        List<Storitev> storitve = storitveZrno.getStoritve();
-        // pridobi Storiteve
+        QueryParameters query = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
+        List<Storitev> storitve = storitveZrno.getStoritve(query);
 
         return Response.status(Response.Status.OK).entity(storitve).build();
     }

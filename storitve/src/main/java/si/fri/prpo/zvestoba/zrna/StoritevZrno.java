@@ -1,5 +1,7 @@
 package si.fri.prpo.zvestoba.zrna;
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
+import com.kumuluz.ee.rest.utils.JPAUtils;
 import si.fri.prpo.zvestoba.anotacije.BeleziKlice;
 import si.fri.prpo.zvestoba.entitete.Storitev;
 import si.fri.prpo.zvestoba.entitete.Uporabnik;
@@ -35,12 +37,12 @@ public class StoritevZrno {
         log.log(Level.INFO, "Inicializacija zrna StoritevZrno");
     }
 
-    public List<Storitev> getStoritve(){
+    public List<Storitev> getStoritve(QueryParameters queryParameters){
         log.fine("Vračam vse storitve");
 
-        Query q = em.createNamedQuery("Storitev.getAll");
+        List<Storitev> zbraneTocke = JPAUtils.queryEntities(em, Storitev.class, queryParameters);
 
-        return (List<Storitev>)(q.getResultList());
+        return zbraneTocke;
     }
 
     public Storitev getStoritev(Integer storitevId){

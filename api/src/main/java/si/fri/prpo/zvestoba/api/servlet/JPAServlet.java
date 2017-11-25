@@ -33,7 +33,8 @@ public class JPAServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         PrintWriter writer = resp.getWriter();
-
+        writer.append("Servlet teče\n");
+/*
         // Izpisi vse uporabnike
         writer.append("SELECT u FROM uporabniki u\n");
         List<Uporabnik> uporabniki = uporabnikiZrno.getUporabniki();
@@ -144,5 +145,6 @@ public class JPAServlet extends HttpServlet {
         tockeZrno.povisajUporabnikuTockeStoritve(upo, dodStoritev);
         writer.append("Uporabniku: " + upo.getUporabnisko_ime() + " povisane tocke storitve: " + dodStoritev.getStoritevId() +"\n");
         writer.append(tockeZrno.getTockeStoritveUporabnika(upo, dodStoritev).toString() + "\n");
+*/
     }
 }

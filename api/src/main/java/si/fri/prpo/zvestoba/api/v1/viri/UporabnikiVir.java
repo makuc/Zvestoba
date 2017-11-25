@@ -1,5 +1,6 @@
 package si.fri.prpo.zvestoba.api.v1.viri;
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
 import si.fri.prpo.zvestoba.api.v1.Request.RequestUporabnik;
 import si.fri.prpo.zvestoba.entitete.Uporabnik;
 import si.fri.prpo.zvestoba.zrna.StoritevZrno;
@@ -9,8 +10,10 @@ import si.fri.prpo.zvestoba.zrna.ZbraneTockeZrno;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
@@ -21,6 +24,9 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class UporabnikiVir {
+
+    @Context
+    protected UriInfo uriInfo;
 
     @Inject
     private UporabnikZrno uporabnikiZrno;
@@ -34,7 +40,8 @@ public class UporabnikiVir {
     @GET
     public Response vrniUporabnike(){
 
-        List<Uporabnik> uporabniki = uporabnikiZrno.getUporabniki();
+        QueryParameters query = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
+        List<Uporabnik> uporabniki = uporabnikiZrno.getUporabniki(query);
         // pridobi uporabnike
 
         return Response.status(Response.Status.OK).entity(uporabniki).build();

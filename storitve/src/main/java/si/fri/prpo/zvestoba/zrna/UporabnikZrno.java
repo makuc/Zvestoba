@@ -1,5 +1,7 @@
 package si.fri.prpo.zvestoba.zrna;
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
+import com.kumuluz.ee.rest.utils.JPAUtils;
 import si.fri.prpo.zvestoba.anotacije.BeleziKlice;
 import si.fri.prpo.zvestoba.entitete.Storitev;
 import si.fri.prpo.zvestoba.entitete.Uporabnik;
@@ -36,10 +38,13 @@ public class UporabnikZrno {
         log.log(Level.INFO, "Inicializacija zrna UporabnikZrno");
     }
 
-    public List<Uporabnik> getUporabniki() {
+    public List<Uporabnik> getUporabniki(QueryParameters queryParameters) {
         log.log(Level.FINE, "Vračam vse uporabnike");
-        Query q = em.createNamedQuery("Uporabniki.getAll");
-        return (List<Uporabnik>)(q.getResultList());
+
+        List<Uporabnik> uporabniki = JPAUtils.queryEntities(em, Uporabnik.class, queryParameters);
+
+
+        return uporabniki;
 
     }
 

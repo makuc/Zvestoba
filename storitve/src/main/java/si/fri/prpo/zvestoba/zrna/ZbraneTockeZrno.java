@@ -1,5 +1,7 @@
 package si.fri.prpo.zvestoba.zrna;
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
+import com.kumuluz.ee.rest.utils.JPAUtils;
 import si.fri.prpo.zvestoba.anotacije.BeleziKlice;
 import si.fri.prpo.zvestoba.entitete.Storitev;
 import si.fri.prpo.zvestoba.entitete.Uporabnik;
@@ -45,16 +47,18 @@ public class ZbraneTockeZrno {
     @PersistenceContext(unitName = "zvestoba-jpa")
     private EntityManager em;
 
-    public List<ZbraneTocke> getZbraneTocke() {
+    public List<ZbraneTocke> getZbraneTocke(QueryParameters queryParameters) {
         log.info("Začetek obdelave zahtevka: " + uuidZrno.getId().toString());
 
         log.fine("Vracam vse vnose ZbraneTocke");
 
-        Query q = em.createNamedQuery("ZbraneTocke.getAll");
+        //Query q = em.createNamedQuery("ZbraneTocke.getAll");
+
+        List<ZbraneTocke> zbraneTocke = JPAUtils.queryEntities(em, ZbraneTocke.class, queryParameters);
 
         log.info("Konec obdelave zahtevka: " + uuidZrno.getId().toString());
 
-        return (List<ZbraneTocke>) q.getResultList();
+        return zbraneTocke;
     }
 
     public List<ZbraneTocke> getStoritveUporabnika (Uporabnik uporabnik){
