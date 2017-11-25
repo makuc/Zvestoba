@@ -15,6 +15,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
+import javax.ws.rs.NotFoundException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,7 +44,6 @@ public class UporabnikZrno {
 
         List<Uporabnik> uporabniki = JPAUtils.queryEntities(em, Uporabnik.class, queryParameters);
 
-
         return uporabniki;
 
     }
@@ -56,8 +56,12 @@ public class UporabnikZrno {
         }
 
         log.fine("Vračam uporabnika " + uporabnisko_ime);
+        Uporabnik uporabnik = em.find(Uporabnik.class, uporabnisko_ime);
 
-        return em.find(Uporabnik.class, uporabnisko_ime);
+        if(uporabnik == null)
+            throw new NotFoundException();
+
+        return uporabnik;
     }
 
     public void deleteUporabnik(String uporabnisko_ime){

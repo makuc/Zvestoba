@@ -52,9 +52,6 @@ public class UporabnikiVir {
     public Response vrniUporabnika(@PathParam("uporabnisko_ime") String uporabnisko_ime){
         Uporabnik uporabnik = uporabnikiZrno.getUporabnik(uporabnisko_ime);
 
-        if(uporabnik == null)
-            return Response.status(Response.Status.NOT_FOUND).entity(uporabnisko_ime).build();
-
         return Response.status(Response.Status.OK).entity(uporabnik).build();
     }
 

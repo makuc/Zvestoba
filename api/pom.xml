@@ -28,6 +28,10 @@
             <groupId>si.fri.prpo.zvestoba</groupId>
             <artifactId>storitve</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.kumuluz.ee.openapi</groupId>
+            <artifactId>kumuluzee-openapi</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -44,6 +48,11 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <specificationConfig>
+                        <includeSwaggerUI>true</includeSwaggerUI>
+                    </specificationConfig>
+                </configuration>
             </plugin>
         </plugins>
     </build>

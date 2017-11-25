@@ -21,9 +21,10 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <kumuluzee.version>2.4.1</kumuluzee.version>
+        <kumuluzee.version>2.5.0-SNAPSHOT</kumuluzee.version>
         <postgresql.version>42.1.4</postgresql.version>
         <kumuluzee-rest.version>1.1.0</kumuluzee-rest.version>
+        <kumuluzee-openapi.version>1.0.0-SNAPSHOT</kumuluzee-openapi.version>
     </properties>
 
     <dependencyManagement>
@@ -60,7 +61,40 @@
                 <artifactId>kumuluzee-rest-core</artifactId>
                 <version>${kumuluzee-rest.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.kumuluz.ee.openapi</groupId>
+                <artifactId>kumuluzee-openapi</artifactId>
+                <version>${kumuluzee-openapi.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <repositories>
+        <repository>
+            <id>sonatype-snapshots</id>
+            <name>Sonatype Snapshots</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>sonatype-snapshots</id>
+            <name>Sonatype Snapshots</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
 
 </project>

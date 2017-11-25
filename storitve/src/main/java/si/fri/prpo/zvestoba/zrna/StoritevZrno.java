@@ -2,6 +2,7 @@ package si.fri.prpo.zvestoba.zrna;
 
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.kumuluz.ee.rest.utils.JPAUtils;
+import org.omg.CosNaming.NamingContextPackage.NotFound;
 import si.fri.prpo.zvestoba.anotacije.BeleziKlice;
 import si.fri.prpo.zvestoba.entitete.Storitev;
 import si.fri.prpo.zvestoba.entitete.Uporabnik;
@@ -15,6 +16,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
+import javax.ws.rs.NotFoundException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -54,7 +56,12 @@ public class StoritevZrno {
 
         log.log(Level.FINE, "Vračam storitev s storitevId: " + storitevId);
 
-        return em.find(Storitev.class, storitevId);
+        Storitev storitev = em.find(Storitev.class, storitevId);
+
+        if(storitev == null)
+            throw new NotFoundException();
+
+        return storitev;
     }
 
     @Transactional
