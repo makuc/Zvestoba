@@ -12,4 +12,4 @@ kumuluzee:
 rest-properties:
   external-services:
     ponudniki-storitev:
-      base-url: "http://localhost:8081/v1"
+      base-url: "http://192.168.99.100:8081/v1"
