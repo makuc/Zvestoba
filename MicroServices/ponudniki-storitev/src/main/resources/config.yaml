@@ -5,4 +5,4 @@ kumuluzee:
     name: dev
   server:
     http:
-      port: 8085
+      port: 8081

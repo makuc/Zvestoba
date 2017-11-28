@@ -1,5 +1,9 @@
 package si.fri.prpo.zvestoba.entitete;
+import si.fri.prpo.zvestoba.entitete.podatkovne.Ponudniki;
+
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlTransient;
+
 @Entity(name = "storitve")
 @NamedQueries(value =
         {
@@ -13,11 +17,23 @@ public class Storitev {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer storitevId;
     private String naziv;
-    private String opis;
+
+    private Integer ponudnikId;
+
+    @Transient
+    private Ponudniki ponudnikStoritve;
+
     private Integer stPridobljenihTock;
+    private String opis;
 
     public Storitev(String naziv, String opis, Integer stPridobljenihTock) {
         this.naziv = naziv;
+        this.opis = opis;
+        this.stPridobljenihTock = stPridobljenihTock;
+    }
+    public Storitev(String naziv, Integer ponudnikId, String opis, Integer stPridobljenihTock) {
+        this.naziv = naziv;
+        this.ponudnikId = ponudnikId;
         this.opis = opis;
         this.stPridobljenihTock = stPridobljenihTock;
     }
@@ -48,5 +64,18 @@ public class Storitev {
     }
     public void setStPridobljenihTock(Integer stPridobljenihTock) {
         this.stPridobljenihTock = stPridobljenihTock;
+    }
+    public Integer getPonudnikId() {
+        return ponudnikId;
+    }
+    public void setPonudnikId(Integer ponudnikId) {
+        this.ponudnikId = ponudnikId;
+    }
+
+    public Ponudniki getPonudnikStoritve() {
+        return ponudnikStoritve;
+    }
+    public void setPonudnikStoritve(Ponudniki ponudnikStoritve) {
+        this.ponudnikStoritve = ponudnikStoritve;
     }
 }

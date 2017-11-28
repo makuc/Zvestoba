@@ -21,13 +21,13 @@ public class PonudnikiZrno {
 
         ponudniki = new LinkedList<Ponudniki>();
 
-        Ponudniki ponudnik = new Ponudniki(1, "Ponudnik 1");
+        Ponudniki ponudnik = new Ponudniki(0, "Ponudnik 1");
         ponudniki.add(ponudnik);
 
-        ponudnik = new Ponudniki(2, "Ponudnik 2");
+        ponudnik = new Ponudniki(1, "Ponudnik 2");
         ponudniki.add(ponudnik);
 
-        ponudnik = new Ponudniki(3, "Ponudnik 3");
+        ponudnik = new Ponudniki(2, "Ponudnik 3");
         ponudniki.add(ponudnik);
 
         log.info("Entitete ustvarjene!");
