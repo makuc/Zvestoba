@@ -192,7 +192,7 @@ public class StoritveVir {
     )
     @GET
     @Path("{id}")
-    public Response vrniStoriteva(@PathParam("id") int id){
+    public Response vrniStoritev(@PathParam("id") int id){
         Storitev storitev = storitveZrno.getStoritev(id);
         if(storitev == null)
             return Response.status(Response.Status.NOT_FOUND).entity(id).build();
@@ -326,7 +326,7 @@ public class StoritveVir {
             }
     )
     @DELETE
-    public Response odstraniStoriteva(RequestStoritev requestStoritev) {
+    public Response odstraniStoritev(RequestStoritev requestStoritev) {
 
         if(requestStoritev.getStoritevId() == null)
             return Response.status(Response.Status.BAD_REQUEST).entity(requestStoritev).build();
