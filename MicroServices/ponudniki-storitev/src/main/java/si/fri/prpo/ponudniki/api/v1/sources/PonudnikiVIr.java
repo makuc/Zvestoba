@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.xml.bind.annotation.XmlElement;
 import java.util.List;
 
 @ApplicationScoped
@@ -34,5 +35,15 @@ public class PonudnikiVIr {
         if(p == null)
             return Response.status(Response.Status.NOT_FOUND).entity(ponudnikId).build();
         return Response.status(Response.Status.OK).entity(p).build();
+    }
+
+    @POST
+    public Response addPonudnik(Ponudniki ponudnik) {
+        Ponudniki respPonudnik = ponudnikiZrno.addPonudnik(ponudnik);
+        if(ponudnik == null) {
+            return Response.status(Response.Status.CONFLICT).entity(ponudnik).build();
+        } else {
+            return Response.status(Response.Status.CREATED).entity(ponudnik).build();
+        }
     }
 }

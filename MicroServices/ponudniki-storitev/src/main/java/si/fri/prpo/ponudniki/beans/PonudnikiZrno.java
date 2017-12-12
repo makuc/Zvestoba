@@ -4,6 +4,7 @@ import si.fri.prpo.ponudniki.entities.Ponudniki;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -15,22 +16,24 @@ public class PonudnikiZrno {
 
     private Logger log = Logger.getLogger(PonudnikiZrno.class.getName());
 
+    @Inject
+    QueueManager queueManager;
+
     @PostConstruct
     public void init() {
         log.info("Ustvarjam entitete...");
 
         ponudniki = new LinkedList<Ponudniki>();
 
-        Ponudniki ponudnik = new Ponudniki(0, "Ponudnik 1");
-        ponudniki.add(ponudnik);
+        Ponudniki ponudnik;
 
-        ponudnik = new Ponudniki(1, "Ponudnik 2");
-        ponudniki.add(ponudnik);
+        ponudnik = addPonudnik("Ponudnik 1");
 
-        ponudnik = new Ponudniki(2, "Ponudnik 3");
-        ponudniki.add(ponudnik);
+        ponudnik = addPonudnik("Ponudnik 2");
 
-        log.info("Entitete ustvarjene!");
+        ponudnik = addPonudnik("Ponudnik 3");
+
+        log.info("Osnovne entitete ustvarjene!");
     }
 
     public List<Ponudniki> getPonudniki() {
@@ -45,5 +48,23 @@ public class PonudnikiZrno {
                 return ponudnik;
         }
         return null;
+    }
+
+    public Ponudniki addPonudnik(String ime_ponudnika) {
+        Ponudniki ponudnik = new Ponudniki(ponudniki.size(), ime_ponudnika);
+        while(getPonudnik(ponudnik.getPonudnikId()) != null) {
+            ponudnik.setPonudnikId(ponudnik.getPonudnikId() +1);
+        }
+        return addPonudnik(ponudnik);
+    }
+    public Ponudniki addPonudnik(Ponudniki ponudnik) {
+        log.info("Dodajam ponudnika: " + ponudnik.getIme_ponudnika());
+
+        if(getPonudnik(ponudnik.getPonudnikId()) != null)
+            return null;
+
+        ponudniki.add(ponudnik);
+        queueManager.posljiObvestiloODodanemPonudniku(ponudnik.getPonudnikId());
+        return ponudnik;
     }
 }

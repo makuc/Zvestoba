@@ -6,3 +6,7 @@ kumuluzee:
   server:
     http:
       port: 8081
+rabbitmq:
+  host: 192.168.99.100
+  username: rabbit
+  password: rabbit

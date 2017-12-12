@@ -14,6 +14,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <kumuluzee.version>2.5.0-SNAPSHOT</kumuluzee.version>
         <kumuluzee-rest.version>1.1.0</kumuluzee-rest.version>
+        <version.rabbitmq>5.0.0</version.rabbitmq>
     </properties>
 
 
@@ -35,6 +36,11 @@
                 <groupId>com.kumuluz.ee.openapi</groupId>
                 <artifactId>kumuluzee-openapi</artifactId>
                 <version>${kumuluzee-openapi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.rabbitmq</groupId>
+                <artifactId>amqp-client</artifactId>
+                <version>${version.rabbitmq}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -59,6 +65,10 @@
         <dependency>
             <groupId>com.kumuluz.ee</groupId>
             <artifactId>kumuluzee-jax-rs-jersey</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.rabbitmq</groupId>
+            <artifactId>amqp-client</artifactId>
         </dependency>
     </dependencies>
 
