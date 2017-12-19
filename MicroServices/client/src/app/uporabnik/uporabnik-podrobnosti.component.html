@@ -1,0 +1,31 @@
+<div *ngIf="uporabnik">
+
+    <h3>Podrobnosti uporabnika {{uporabnik.ime}}</h3>
+
+    <table>
+        <tr>
+            <td>Uporabniško ime:</td>
+            <td>{{uporabnik.uporabnisko_ime}}</td>
+        </tr>
+        <tr>
+            <td>Ime:</td>
+            <td>{{uporabnik.ime}}</td>
+        </tr>
+        <tr>
+            <td>Priimek:</td>
+            <td>{{uporabnik.priimek}}</td>
+        </tr>
+        <tr>
+            <td>Email:</td>
+            <td>{{uporabnik.email}}</td>
+        </tr>
+    </table>
+
+    <br>
+    <h4>Zbrane točke pri storitvah:</h4>
+    <li *ngFor="let tocke of zbraneTocke">
+        Št. točk pri "{{tocke.storitev.naziv}}" je: {{tocke.st_tock}}
+    </li>
+    <br>
+    <button (click)="nazaj()">Nazaj</button>
+</div>

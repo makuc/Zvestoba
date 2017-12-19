@@ -1,5 +1,6 @@
 package si.fri.prpo.zvestoba.api.v1.viri;
 
+import com.kumuluz.ee.cors.annotations.CrossOrigin;
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import io.swagger.oas.annotations.Operation;
 import io.swagger.oas.annotations.headers.Header;
@@ -29,6 +30,7 @@ import java.util.List;
 @Path("uporabniki")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@CrossOrigin(supportedMethods = "GET, POST, HEAD, OPTIONS, DELETE")
 public class UporabnikiVir {
 
     @Context
@@ -338,6 +340,18 @@ public class UporabnikiVir {
             return Response.status(Response.Status.NOT_FOUND).entity(requestUporabnik.getUporabnisko_ime()).build();
 
         uporabnikiZrno.deleteUporabnik(uporabnik);
+        return Response.status(Response.Status.OK).build();
+
+    }
+    @DELETE
+    @Path("{uporabnisko_ime}")
+    public Response odstraniUporabnika(@PathParam("uporabnisko_ime") String uporabnisko_ime) {
+
+        if(uporabnisko_ime == null){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        uporabnikiZrno.deleteUporabnik(uporabnisko_ime);
         return Response.status(Response.Status.OK).build();
 
     }

@@ -1,6 +1,7 @@
 package si.fri.prpo.zvestoba.api.v1.viri;
 
 
+import com.kumuluz.ee.cors.annotations.CrossOrigin;
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import io.swagger.oas.annotations.Operation;
 import io.swagger.oas.annotations.headers.Header;
@@ -29,6 +30,7 @@ import java.util.List;
 @Path("tocke")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@CrossOrigin(supportedMethods = "GET, POST, HEAD, OPTIONS, DELETE")
 public class ZbraneTockeVir {
 
     @Context

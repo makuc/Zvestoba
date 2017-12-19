@@ -144,6 +144,7 @@ public class ZbraneTockeZrno {
         em.getTransaction().begin();
         em.persist(dodaj);
         em.getTransaction().commit();
+        em.close();
 
         return getTockeStoritveUporabnika(uporabnik, storitev);
     }
@@ -184,7 +185,7 @@ public class ZbraneTockeZrno {
 
         em.getTransaction().begin();
         em.remove(zbraneTocke);
-        em.getTransaction().begin();
+        em.getTransaction().commit();
     }
 
     public void deleteStoritveUporabnika(Uporabnik uporabnik){
