@@ -3,12 +3,12 @@ package si.fri.prpo.zvestoba.api.v1.viri;
 
 import com.kumuluz.ee.cors.annotations.CrossOrigin;
 import com.kumuluz.ee.rest.beans.QueryParameters;
-import io.swagger.oas.annotations.Operation;
-import io.swagger.oas.annotations.headers.Header;
-import io.swagger.oas.annotations.media.Content;
-import io.swagger.oas.annotations.media.Schema;
-import io.swagger.oas.annotations.responses.ApiResponse;
-import io.swagger.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.headers.Header;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import si.fri.prpo.zvestoba.api.v1.Request.RequestZbraneTocke;
 import si.fri.prpo.zvestoba.entitete.Storitev;
 import si.fri.prpo.zvestoba.entitete.Uporabnik;

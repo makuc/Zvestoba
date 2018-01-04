@@ -1,12 +1,12 @@
 package si.fri.prpo.zvestoba.api.v1;
 
-import io.swagger.oas.annotations.OpenAPIDefinition;
-import io.swagger.oas.annotations.enums.SecuritySchemeType;
-import io.swagger.oas.annotations.info.Contact;
-import io.swagger.oas.annotations.info.Info;
-import io.swagger.oas.annotations.security.SecurityRequirement;
-import io.swagger.oas.annotations.security.SecurityScheme;
-import io.swagger.oas.annotations.servers.Server;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.annotations.servers.Server;
 
 import javax.ws.rs.ApplicationPath;
 
@@ -19,7 +19,8 @@ import javax.ws.rs.ApplicationPath;
                         name = "Armin Makovec",
                         email= "armin.makovec@hotmail.com"
                 )
-        )
+        ),
+        servers = @Server(url="")
 )
 @ApplicationPath("v1")
 public class APIv1 extends javax.ws.rs.core.Application {
