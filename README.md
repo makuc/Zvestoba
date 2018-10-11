@@ -1,8 +1,13 @@
-# Zvestoba
-Projekt na **Fakulteti za Računalništvo in Informatiko** pri predmetu **Postopki Razvoja Programske Opreme** v 3. letniku univerzitetnega programa.
+# Zvestoba #
+## Uvod ##
 
-Repozitorij vsebije Maven Projekt vstvarjen znotraj IntelliJ razvojnega okolja v Java EE 8 (JDK 8u144).
-Dependencies:
-* kumuluzee
+Projektna naloga študentov Armin Makovec in Mitja Maren pri predmetu **Postopki Razvoja Programske Opreme**.
+Izdelana na **Fakulteti za Računalništvo in Informatiko**, *Univerza v Ljubljani*.
 
-OpenAPI UI ne deluje, ker so na komuluz.ee nadgradili framework, ki ni kompatibilen s starejšo različico s katero je bila naloga narejena.
+## Izdelek ##
+Repozitorij vsebije Maven Projekt vstvarjen znotraj JetBrain IntelliJ razvojnega okolja v Java EE 8 (JDK 8u144). Projekt vsebuje 2 mikrostoritvi sprogramirani v Javi z uporabo ogrodja *Kumuluz.ee* za gradnjo mikrostoritev.
+
+Izdelana tudi front-end aplikacija v Angular.
+
+# Pozor #
+OpenAPI UI ne deluje, ker so na komuluz.ee ogrodje nadgradili in ni več kompatibilno s poskusno različico s katero je bil projekt narejen.
