@@ -9,7 +9,9 @@ Repozitorij vsebije Maven Projekt vstvarjen znotraj JetBrain IntelliJ razvojnega
 
 Izdelana tudi front-end aplikacija v Angular.
 
+## Wiki ##
+Več informacij o izdelku je na voljo v [Wiki](https://github.com/makuc/Zvestoba/wiki).
+
 # Pozor #
 
 * OpenAPI UI ne deluje, ker so na komuluz.ee ogrodje nadgradili in ni več kompatibilno s poskusno različico s katero je bil projekt narejen.
-* WIKI nisem še prenesel iz šolskega GitLaba.
